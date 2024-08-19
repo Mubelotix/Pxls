@@ -1688,7 +1688,7 @@ public class WebHandler {
             }
 
             // Get the one-time authorization code from the request
-            String code = 
+            String code;
             if (id == "cas") {
                 code = exchange.getQueryParameters().get("ticket").element();
             } else {
