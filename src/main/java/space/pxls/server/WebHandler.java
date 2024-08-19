@@ -489,6 +489,8 @@ public class WebHandler {
     private void addServiceIfAvailable(String key, AuthService service) {
         if (service.use()) {
             services.put(key, service);
+        } else {
+            System.out.println("Service " + key + " is disabled");
         }
     }
 
