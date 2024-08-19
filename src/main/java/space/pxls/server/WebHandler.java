@@ -1689,7 +1689,7 @@ public class WebHandler {
 
             // Get the one-time authorization code from the request
             String code;
-            if (id == "cas") {
+            if ("cas".equals(id)) {
                 code = exchange.getQueryParameters().get("ticket").element();
             } else {
                 code = extractOAuthCode(exchange);
