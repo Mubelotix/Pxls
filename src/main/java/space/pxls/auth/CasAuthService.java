@@ -28,9 +28,9 @@ public class CasAuthService extends AuthService {
     @Override
     public String getToken(String token) throws UnirestException {
         HttpResponse<String> response = Unirest.get(App.getConfig().getString("oauth.cas.validate_url"))
-                .queryString("service", getCallbackUrl())
-                .queryString("ticket", token)
-                .asString();
+            .queryString("service", getCallbackUrl())
+            .queryString("ticket", token)
+            .asString();
 
         if (response.getStatus() != 200) {
             throw new UnirestException("CAS validation failed: " + response.getStatusText());

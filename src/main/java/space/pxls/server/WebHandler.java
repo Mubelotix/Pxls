@@ -1669,7 +1669,7 @@ public class WebHandler {
 
                 return;
             }
-
+            System.out.println("A: Authenticating with service " + id);
             // Check for errors reported by server
             if (exchange.getQueryParameters().containsKey("error")) {
                 String error = exchange.getQueryParameters().get("error").element();
@@ -1681,6 +1681,7 @@ public class WebHandler {
                 }
                 return;
             }
+            System.out.println("B: state: " + state);
 
             if (!service.verifyState(state)) {
                 respond(exchange, StatusCodes.BAD_REQUEST, new space.pxls.server.packets.http.Error("bad_state", "Invalid state token"));
@@ -1694,6 +1695,7 @@ public class WebHandler {
             } else {
                 code = extractOAuthCode(exchange);
             }
+            System.out.println("C: code: " + code);
             if (code == null) {
                 if (redirect) {
                     redirect(exchange, doneBase + "?nologin=1");
@@ -1705,11 +1707,12 @@ public class WebHandler {
 
             // Get a more persistent user token
             String token = service.getToken(code);
+            System.out.println("D: token: " + token);
             if (token == null) {
                 respond(exchange, StatusCodes.UNAUTHORIZED, new space.pxls.server.packets.http.Error("bad_code", "OAuth code invalid"));
                 return;
             }
-
+            System.out.println("E: token: " + token);
             // And get an account identifier from that
             String identifier;
             try {
@@ -1719,6 +1722,7 @@ public class WebHandler {
                 return;
             }
 
+            System.out.println("F: identifier: " + identifier);
             if (identifier != null) {
                 User user = App.getUserManager().getByLogin(id, identifier);
                 // If there is no user with that identifier, we make a signup token and tell the client to sign up with that token
