@@ -128,7 +128,7 @@ public abstract class AuthService {
     }
 
     public boolean use() {
-        return enabled && (!App.getConfig().getString("oauth."+id+".key").isEmpty() || "cas".equals(this.id));
+        return enabled && ("cas".equals(this.id) || !App.getConfig().getString("oauth."+id+".key").isEmpty());
     }
 
     public abstract String getName();
