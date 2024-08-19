@@ -31,8 +31,8 @@ public class CasAuthService extends AuthService {
 
         String username;
         try {
-            String start_username_field = "<cas:" + App.getConfig().getString("oauth.cas.username_field") + ">";
-            String end_username_field = "</cas:" + App.getConfig().getString("oauth.cas.user") + ">";
+            String start_username_field = "<cas:" + App.getConfig().getString("oauth.cas.usernameField") + ">";
+            String end_username_field = "</cas:" + App.getConfig().getString("oauth.cas.usernameField") + ">";
             username = response.getBody().split(start_username_field)[1].split(end_username_field)[0];
         } catch (Exception e) {
             throw new UnirestException("CAS validation failed: " + e.getMessage());
