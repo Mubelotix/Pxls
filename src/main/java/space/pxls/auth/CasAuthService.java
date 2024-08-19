@@ -47,6 +47,14 @@ public class CasAuthService extends AuthService {
     }
 
     public String getName() {
+        try {
+            String custom_name = App.getConfig().getString("oauth.cas.name");
+            if (custom_name != null && !custom_name.isEmpty()) {
+                return custom_name;
+            }
+        } catch (Exception e) {
+            // ignore
+        }
         return "CAS";
     }
 
