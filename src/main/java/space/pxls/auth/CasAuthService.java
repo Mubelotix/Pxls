@@ -16,7 +16,7 @@ public class CasAuthService extends AuthService {
 
     @Override
     public String getRedirectUrl(String state) {
-        String service = getCallbackUrl() + "&state=" + state;
+        String service = getCallbackUrl() + "?state=" + state;
         try {
             service = URLEncoder.encode(service, StandardCharsets.UTF_8.toString());
         } catch (UnsupportedEncodingException e) {
