@@ -489,13 +489,6 @@ public class WebHandler {
     private void addServiceIfAvailable(String key, AuthService service) {
         if (service.use()) {
             services.put(key, service);
-        } else {
-            //             return enabled
-            // && !App.getConfig().getString("oauth.cas.loginUrl").isEmpty()
-            // && !App.getConfig().getString("oauth.cas.validateUrl").isEmpty()
-            // && !App.getConfig().getString("oauth.cas.usernameField").isEmpty();
-
-            System.out.println("Service " + key + " is disabled" + App.getConfig().getString("oauth.cas.loginUrl") + " " + App.getConfig().getString("oauth.cas.validateUrl") + App.getConfig().getString("oauth.cas.usernameField"));
         }
     }
 
