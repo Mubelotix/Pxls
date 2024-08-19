@@ -1,5 +1,9 @@
 package space.pxls.auth;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
+
 import kong.unirest.HttpResponse;
 import kong.unirest.Unirest;
 import kong.unirest.UnirestException;
@@ -12,14 +16,17 @@ public class CasAuthService extends AuthService {
 
     @Override
     public String getRedirectUrl(String state) {
-        System.out.println("Redirecting to CAS login page");
-        return App.getConfig().getString("oauth.cas.loginUrl") + "?service=" + getCallbackUrl() + "&state=" + state;
+        String service = getCallbackUrl() + "&state=" + state;
+        try {
+            service = URLEncoder.encode(service, StandardCharsets.UTF_8.toString());
+        } catch (UnsupportedEncodingException e) {
+            return "";
+        }
+        return App.getConfig().getString("oauth.cas.loginUrl") + "?service=" + service;
     }
 
     @Override
     public String getToken(String token) throws UnirestException {
-        System.out.println("Validating token from CAS");
-
         HttpResponse<String> response = Unirest.get(App.getConfig().getString("oauth.cas.validate_url"))
                 .queryString("service", getCallbackUrl())
                 .queryString("ticket", token)
