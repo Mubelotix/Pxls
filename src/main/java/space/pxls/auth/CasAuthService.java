@@ -13,7 +13,7 @@ public class CasAuthService extends AuthService {
     @Override
     public String getRedirectUrl(String state) {
         System.out.println("Redirecting to CAS login page");
-        return App.getConfig().getString("oauth.cas.login_url") + "?service=" + getCallbackUrl() + "&state=" + state;
+        return App.getConfig().getString("oauth.cas.loginUrl") + "?service=" + getCallbackUrl() + "&state=" + state;
     }
 
     @Override
