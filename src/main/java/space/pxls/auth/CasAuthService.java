@@ -32,7 +32,7 @@ public class CasAuthService extends AuthService {
 
     @Override
     public String getToken(String token) throws UnirestException {
-        HttpResponse<String> response = Unirest.get(App.getConfig().getString("oauth.cas.validate_url"))
+        HttpResponse<String> response = Unirest.get(App.getConfig().getString("oauth.cas.validateUrl"))
             .queryString("service", getCallbackUrl())
             .queryString("ticket", token)
             .asString();
