@@ -1622,18 +1622,24 @@ public class WebHandler {
     }
 
     public void auth(HttpServerExchange exchange) throws UnirestException {
+        System.out.println("1");
+
         if (exchange.isInIoThread()) {
             exchange.dispatch(this::auth);
             return;
         }
+        System.out.println("2");
 
         String id = exchange.getRelativePath().substring(1);
+        System.out.println("3");
 
         AuthService service = services.get(id);
         if (service != null && service.use()) {
+            System.out.println("4");
 
             // Verify the given OAuth state, to make sure people don't double-send requests
             Deque<String> stateQ = exchange.getQueryParameters().get("state");
+            System.out.println("5");
 
             String state_ = "";
             if (stateQ != null) {
@@ -1649,6 +1655,8 @@ public class WebHandler {
                 Cookie redirectCookie = exchange.getRequestCookie("pxls-auth-redirect");
                 redirect = redirectCookie != null;
             }
+            System.out.println("6");
+
             // let's just delete the redirect cookie
             Calendar pastCalendar = Calendar.getInstance();
             pastCalendar.add(Calendar.DATE, -1);
@@ -1657,11 +1665,13 @@ public class WebHandler {
                     .setPath("/")
                     .setExpires(pastCalendar.getTime())
             );
+            System.out.println("7");
 
             String protocol = App.getConfig().getBoolean("https") ? "https" : "http";
             String host = App.getConfig().getString("host");
             int frontEndPort = App.getConfig().getInt("frontEndPort");
             String doneBase = String.format("%s://%s:%d/auth_done.html", protocol, host, frontEndPort);
+            System.out.println("8");
 
             if (!redirect && exchange.getQueryParameters().get("json") == null) {
                 exchange.getResponseHeaders().put(Headers.CONTENT_TYPE, "text/html");
