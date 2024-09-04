@@ -1622,24 +1622,17 @@ public class WebHandler {
     }
 
     public void auth(HttpServerExchange exchange) throws UnirestException {
-        System.out.println("1");
-
         if (exchange.isInIoThread()) {
             exchange.dispatch(this::auth);
             return;
         }
-        System.out.println("2");
 
         String id = exchange.getRelativePath().substring(1);
-        System.out.println("3");
 
         AuthService service = services.get(id);
         if (service != null && service.use()) {
-            System.out.println("4");
-
             // Verify the given OAuth state, to make sure people don't double-send requests
             Deque<String> stateQ = exchange.getQueryParameters().get("state");
-            System.out.println("5");
 
             String state_ = "";
             if (stateQ != null) {
@@ -1655,7 +1648,6 @@ public class WebHandler {
                 Cookie redirectCookie = exchange.getRequestCookie("pxls-auth-redirect");
                 redirect = redirectCookie != null;
             }
-            System.out.println("6");
 
             // let's just delete the redirect cookie
             Calendar pastCalendar = Calendar.getInstance();
@@ -1665,13 +1657,11 @@ public class WebHandler {
                     .setPath("/")
                     .setExpires(pastCalendar.getTime())
             );
-            System.out.println("7");
 
             String protocol = App.getConfig().getBoolean("https") ? "https" : "http";
             String host = App.getConfig().getString("host");
             int frontEndPort = App.getConfig().getInt("frontEndPort");
             String doneBase = String.format("%s://%s:%d/auth_done.html", protocol, host, frontEndPort);
-            System.out.println("8");
 
             if (!redirect && exchange.getQueryParameters().get("json") == null) {
                 exchange.getResponseHeaders().put(Headers.CONTENT_TYPE, "text/html");
@@ -1679,7 +1669,7 @@ public class WebHandler {
 
                 return;
             }
-            System.out.println("A: Authenticating with service " + id);
+
             // Check for errors reported by server
             if (exchange.getQueryParameters().containsKey("error")) {
                 String error = exchange.getQueryParameters().get("error").element();
@@ -1691,7 +1681,6 @@ public class WebHandler {
                 }
                 return;
             }
-            System.out.println("B: state: " + state);
 
             if (!service.verifyState(state)) {
                 respond(exchange, StatusCodes.BAD_REQUEST, new space.pxls.server.packets.http.Error("bad_state", "Invalid state token"));
@@ -1705,7 +1694,6 @@ public class WebHandler {
             } else {
                 code = extractOAuthCode(exchange);
             }
-            System.out.println("C: code: " + code);
             if (code == null) {
                 if (redirect) {
                     redirect(exchange, doneBase + "?nologin=1");
@@ -1717,12 +1705,11 @@ public class WebHandler {
 
             // Get a more persistent user token
             String token = service.getToken(code);
-            System.out.println("D: token: " + token);
             if (token == null) {
                 respond(exchange, StatusCodes.UNAUTHORIZED, new space.pxls.server.packets.http.Error("bad_code", "OAuth code invalid"));
                 return;
             }
-            System.out.println("E: token: " + token);
+
             // And get an account identifier from that
             String identifier;
             try {
@@ -1732,7 +1719,6 @@ public class WebHandler {
                 return;
             }
 
-            System.out.println("F: identifier: " + identifier);
             if (identifier != null) {
                 User user = App.getUserManager().getByLogin(id, identifier);
                 // If there is no user with that identifier, we make a signup token and tell the client to sign up with that token
