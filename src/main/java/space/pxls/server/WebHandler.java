@@ -432,7 +432,8 @@ public class WebHandler {
         }
 
         FactionManager.getInstance().joinFaction(fid, user.getId());
-
+        user.setDisplayedFactionMaybe(fid);
+        
         App.getDatabase().insertAdminLog(admin_user.getId(), String.format("Made %s join faction %d", user.getName(), fid));
 
         send(200, exchange, "OK");
