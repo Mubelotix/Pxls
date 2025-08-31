@@ -1,3 +1,12 @@
+## Fork notice
+
+This fork includes changes made for events in my engineering school.
+
+These changes were ported to the upstream in 3 individual pull requests:
+- https://github.com/pxlsspace/Pxls/pull/707
+- https://github.com/pxlsspace/Pxls/pull/708
+- https://github.com/pxlsspace/Pxls/pull/714
+
 <div align="center">
 
 ![Pxls](https://i.imgur.com/udeloqX.png)
