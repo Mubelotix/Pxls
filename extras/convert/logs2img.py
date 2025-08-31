@@ -29,7 +29,7 @@ def read_config(path):
     return canvas_width, canvas_height, hex_palette, default_color_idx
 
 
-def main(logs_path, config_path, output_path, scale):
+def main(logs_path, config_path, output_path, user_filter, scale):
     # Read canvas configuration
     canvas_width, canvas_height, hex_palette, default_color_idx = read_config(config_path)
     default_color = hex_to_rgb(hex_palette[default_color_idx])
@@ -52,6 +52,10 @@ def main(logs_path, config_path, output_path, scale):
             y = int(y)
             color_idx = int(color_idx)
 
+            # Check if username is in the whitelist (if provided)
+            if user_filter is not None and username not in user_filter:
+                continue
+
             # Set the pixel color from the log
             color = hex_to_rgb(hex_palette[color_idx])
             pixels[x, y] = color
@@ -70,8 +74,9 @@ if __name__ == '__main__':
     parser.add_argument('logs_path', help='Path to the log file', type=Path)
     parser.add_argument('config_path', help='Path to the HOCON config file', type=Path)
     parser.add_argument('output_path', help='Output PNG file path', type=Path)
+    parser.add_argument('--user-filter', help='list of users to filter in', type=str, nargs='+', default=None)
     parser.add_argument('--scale', help='Scaling factor for the output image', type=int, default=1)
 
     args = parser.parse_args()
 
-    main(args.logs_path, args.config_path, args.output_path, args.scale)
+    main(args.logs_path, args.config_path, args.output_path, args.user_filter, args.scale)
