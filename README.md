@@ -28,7 +28,7 @@ The archive was captured on 20 September 2024 and contains:
 - `insaplace-postgresql-16-2024-09-20.tar.gz`: the complete PostgreSQL 16 data directory.
 - `pixels.log`: the full pixel-placement history used to render the images below.
 - `board.dat`, `default_board.dat`, `heatmap.dat`, `placemap.dat`, and `virginmap.dat`: Pxls canvas state files.
-- `final-canvas.png`: a 4x reconstruction of the final canvas.
+- `final-canvas.png`: the corrected 250x250 final canvas used by the event Atlas.
 - `departments/*.png`: reconstructions of pixels placed by members of each final department faction. Membership is taken from the archived database's final faction snapshot.
 
 The database artifact is a physical PostgreSQL data directory, not a SQL dump. Extract and run it with PostgreSQL 16 exactly. This Podman command was used to verify the archive; it binds the database only to localhost:
@@ -49,7 +49,7 @@ The archived `pg_hba.conf` permits local `trust` authentication, so the final co
 
 ### Final canvas
 
-![Final 2024 canvas](artifacts/final-canvas.png)
+![Final 2024 canvas](https://media.githubusercontent.com/media/Mubelotix/Pxls/67e7d7c47b1bee52b794457d377825bd4e8440f8/artifacts/final-canvas.png)
 
 ### Department canvases
 
