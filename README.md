@@ -1,11 +1,83 @@
-## Fork notice
+## Fork and event archive
 
-This fork includes changes made for events in my engineering school.
+This is a fork of [pxlsspace/Pxls](https://github.com/pxlsspace/Pxls), adapted for a 2024 event at my engineering school. It also preserves the event's canvas and database archive.
 
-These changes were ported to the upstream in 3 individual pull requests:
-- https://github.com/pxlsspace/Pxls/pull/707
-- https://github.com/pxlsspace/Pxls/pull/708
-- https://github.com/pxlsspace/Pxls/pull/714
+We were saddened by Romain Jolly's unilateral decision, communicated without a stated reason, not to allow the event to be held again in 2025.
+
+### Open upstream merge requests
+
+The event-related changes remain proposed upstream:
+
+- [#707: Add CAS auth](https://github.com/pxlsspace/Pxls/pull/707)
+- [#708: Allow admins to make users join factions](https://github.com/pxlsspace/Pxls/pull/708)
+- [#714: Update and add Python scripts](https://github.com/pxlsspace/Pxls/pull/714)
+
+### Archive artifacts
+
+All files under [`artifacts/`](artifacts/) are stored with [Git LFS](https://git-lfs.com/). Fetch them after cloning:
+
+```sh
+git lfs install
+git lfs pull
+```
+
+The archive was captured on 20 September 2024 and contains:
+
+- `insaplace-postgresql-16-2024-09-20.tar.gz`: the complete PostgreSQL 16 data directory.
+- `pixels.log`: the full pixel-placement history used to render the images below.
+- `board.dat`, `default_board.dat`, `heatmap.dat`, `placemap.dat`, and `virginmap.dat`: Pxls canvas state files.
+- `final-canvas.png`: a 4x reconstruction of the final canvas.
+- `departments/*.png`: reconstructions of pixels placed by members of each final department faction. Membership is taken from the archived database's final faction snapshot.
+
+The database artifact is a physical PostgreSQL data directory, not a SQL dump. Extract and run it with PostgreSQL 16 exactly. This Podman command was used to verify the archive; it binds the database only to localhost:
+
+```sh
+mkdir archive
+tar -xzf artifacts/insaplace-postgresql-16-2024-09-20.tar.gz -C archive
+podman run -d --name insaplace-archive \
+  -v "$PWD/archive/database:/var/lib/postgresql/data:Z,U" \
+  -p 127.0.0.1:15432:5432 \
+  docker.io/library/postgres:16
+psql -h 127.0.0.1 -p 15432 -U pxls -d pxls
+```
+
+The archived `pg_hba.conf` permits local `trust` authentication, so the final command does not require a password. The legacy Compose initialization password is `pxls`; it does not change credentials in an already initialized data directory.
+
+`extras/convert/board2img.py` renders the `.dat` canvas files, and `extras/convert/logs2img.py` renders a placement log. Both scripts require the palette and dimensions in [`extras/pxls.conf`](extras/pxls.conf).
+
+### Final canvas
+
+![Final 2024 canvas](artifacts/final-canvas.png)
+
+### Department canvases
+
+#### MECA
+
+![MECA contribution](artifacts/departments/MECA.png)
+
+#### EP
+
+![EP contribution](artifacts/departments/EP.png)
+
+#### ITI
+
+![ITI contribution](artifacts/departments/ITI.png)
+
+#### CFI
+
+![CFI contribution](artifacts/departments/CFI.png)
+
+#### LH
+
+![LH contribution](artifacts/departments/LH.png)
+
+#### GM
+
+![GM contribution](artifacts/departments/GM.png)
+
+#### MRIE
+
+![MRIE contribution](artifacts/departments/MRIE.png)
 
 <div align="center">
 
