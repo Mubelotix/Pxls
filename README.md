@@ -49,7 +49,7 @@ The archived `pg_hba.conf` permits local `trust` authentication, so the final co
 
 ### Final canvas
 
-![Final 2024 canvas](https://media.githubusercontent.com/media/Mubelotix/Pxls/67e7d7c47b1bee52b794457d377825bd4e8440f8/artifacts/final-canvas.png)
+![Final 2024 canvas](https://media.githubusercontent.com/media/Mubelotix/Pxls/9f03ebbd4becea355a817113efe6744da1e9c898/artifacts/final-canvas.png)
 
 ### Department canvases
 
