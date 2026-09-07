@@ -2,6 +2,8 @@
 
 This is a fork of [pxlsspace/Pxls](https://github.com/pxlsspace/Pxls), adapted for a 2024 event at my engineering school. It also preserves the event's canvas and database archive.
 
+Explore the event atlas at [pixelwar.dera.page](https://pixelwar.dera.page/).
+
 We were saddened by Romain Jolly's unilateral decision, communicated without a stated reason, not to allow the event to be held again in 2025.
 
 ### Open upstream merge requests
